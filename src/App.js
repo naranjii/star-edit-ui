@@ -56,7 +56,7 @@ const App = () => {                                                             
 
       let h;                                                              // Hue, Saturation, Lighting **WIP**
       let hCond = Math.round(Math.random() * 355);
-      if (colorEstrelas != 10){
+      if (colorEstrelas !== 10){
        if ((hCond >= 75 && hCond <= 210) || (hCond >= 225 && hCond <= 240)){
          h = Math.round(Math.random() * 75)}
        else{

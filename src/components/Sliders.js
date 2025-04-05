@@ -1,87 +1,73 @@
-import React, { useRef } from "react";
+import React, { useRef, forwardRef  } from "react";
 
-export function SlidersQtd({onSliderChange_qtd}) {                   // QUANTIDADE
+export const RangeInput = forwardRef(({ onChange, min, max, step, defaultValue }, ref) => {
+  return (
+    <div className="sliders">
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        defaultValue={defaultValue}
+        ref={ref}
+        onInput={onChange}
+      />
+    </div>
+  );
+});
+
+export function SlidersQtd({ onSliderChange_qtd }) {                   // QUANTIDADE
   const refqtdEstrelas = useRef(null);
   const handleChange = () => {
     const value = refqtdEstrelas.current.value;
     onSliderChange_qtd(value);
   };
+
+
   return (
-    <div className = "sliders">
-      <input
-        type="range"
-        min="0"
-        max="2000"
-        step="100"
-        defaultValue="800"
-        ref={refqtdEstrelas}
-        onInput={handleChange}
-      />
-    </div>
+    <RangeInput
+      ref={refqtdEstrelas}
+      onChange={handleChange}
+      min="0"
+      max="2000"
+      step="100"
+      defaultValue="800" />
   );
 }
 
-export function SlidersTmp({onSliderChange_tmp}) {                  // TEMPO DE ANIMAÇÃO
+export function SlidersTmp({ onSliderChange_tmp }) {                  // TEMPO DE ANIMAÇÃO
   const reftmpEstrelas = useRef(null);
   const handleChange = () => {
     const tmpvalue = reftmpEstrelas.current.value;
     onSliderChange_tmp(tmpvalue);
   };
   return (
-    <div className = "sliders">
-      <input
-        type="range"
-        min="0.5"
-        max="8"
-        step="0.5"
-        defaultValue="1"
-        ref={reftmpEstrelas}
-        onInput={handleChange}
-      />
-    </div>
+    <RangeInput ref={reftmpEstrelas} onChange={handleChange} min="0.5" max="8" step="0.5" defaultValue="1" />
   );
 }
 
-export function SlidersSize({onSliderChange_size}) {                  // TAMANHO
+export function SlidersSize({ onSliderChange_size }) {                  // TAMANHO
   const refsizeEstrelas = useRef(null);
   const handleChange = () => {
     const sizevalue = refsizeEstrelas.current.value;
     onSliderChange_size(sizevalue);
   };
   return (
-    <div className = "sliders">
-      <input
-        type="range"
-        min="0.5"
-        max="10"
-        step="0.5"
-        defaultValue="2"
-        ref={refsizeEstrelas}
-        onInput={handleChange}
-      />
-    </div>
+    <RangeInput ref={refsizeEstrelas} onChange={handleChange} min="0.5" max="10" step="0.5" defaultValue="2" />
   );
 }
 
 
-export function SlidersColor({onSliderChange_color}) {                  // COR
+export function SlidersColor({ onSliderChange_color }) {                  // COR
   const refcolorEstrelas = useRef(null);
   const handleChange = () => {
     const colorvalue = refcolorEstrelas.current.value;
     onSliderChange_color(colorvalue);
   };
   return (
-    <div className = "sliders">
-      <input
-        type="range"
-        min="1"
-        max="10"
-        step="0.5"
-        defaultValue="5"
-        ref={refcolorEstrelas}
-        onInput={handleChange}
-      />
-    </div>
+
+    <RangeInput ref={refcolorEstrelas} onChange={handleChange} min="1" max="10" step="0.5" defaultValue="5" />
+
   );
 }
 
