@@ -1,4 +1,4 @@
-[image](https://github.com/user-attachments/assets/46c67e3c-0a27-4e81-8312-0667b3dd600a)
+[image](https://github.com/user-attachments/assets/46c67e3c-0a27-4e81-8312-0667b3dd600a)[image]
 
 # ✨ Star Editor – Interactive Starfield Visualizer
 
