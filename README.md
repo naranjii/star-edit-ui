@@ -1,10 +1,11 @@
-# ✨ Star Editor – Interactive Starfield Visualizer
-
+# ✨ Star Edit UI – Interactive Starfield Visualizer
 [![Live on Vercel](https://img.shields.io/badge/Vercel-Live-blue?logo=vercel)](https://starfields.vercel.app)
 [![Made with React](https://img.shields.io/badge/React-JSX-blue?logo=react)](https://reactjs.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-![Star Editor Preview](./5a8b4ece-30a5-4fa4-b085-241faa7e37ec.png)
+
+<img src="https://github.com/user-attachments/assets/b3da99dc-0f12-4bb1-9148-f8fe2929491a" height="320" width="690">
+
 
 ## 🎯 About
 
@@ -20,8 +21,6 @@
 - Adjustable **star size**, **quantity**, **color variation**, and **light delay** using sliders
 - Clean, minimalist UI
 - Reactive rendering of stars via dynamic `div` elements
-
-![Screenshot](./58d6e2d2-e824-4692-afbb-8b4559f29b1e.png)
 
 ---
 
@@ -72,8 +71,6 @@ npm run dev
 - Interface limpa e minimalista
 - Renderização reativa das estrelas usando elementos `div` dinâmicos
 
-![Captura de tela](./58d6e2d2-e824-4692-afbb-8b4559f29b1e.png)
-
 ---
 
 ## 📚 Objetivo
@@ -103,4 +100,5 @@ No entanto, descobri que renderizar um grande número de elementos `div` animado
 git clone https://github.com/naranjii/starfields.git
 cd starfields
 npm install
-npm run dev
+npm run dev!
+
