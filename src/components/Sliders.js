@@ -29,7 +29,7 @@ export function SlidersQtd({ onSliderChange_qtd }) {                   // QUANTI
       ref={refqtdEstrelas}
       onChange={handleChange}
       min="0"
-      max="2000"
+      max="3000"
       step="100"
       defaultValue="800" />
   );
@@ -42,7 +42,7 @@ export function SlidersTmp({ onSliderChange_tmp }) {                  // TEMPO D
     onSliderChange_tmp(tmpvalue);
   };
   return (
-    <RangeInput ref={reftmpEstrelas} onChange={handleChange} min="0.5" max="8" step="0.5" defaultValue="1" />
+    <RangeInput ref={reftmpEstrelas} onChange={handleChange} min="1" max="10" step="0.5" defaultValue="1" />
   );
 }
 

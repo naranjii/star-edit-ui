@@ -9,7 +9,7 @@
 
 ## 🎯 About
 
-**Star Editor** is a parameterizable starfield visualizer created as a personal experiment to learn **JSX-based CSS manipulation**. It focuses on providing a clean, reactive UI that visually responds to user input.
+**Star Edit UI** is a parameterizable starfield visualizer created as a personal experiment to learn **JSX-based CSS manipulation**. It focuses on providing a clean, reactive UI that visually responds to user input.
 
 🔗 Live Demo: [https://starfields.vercel.app](https://starfields.vercel.app)  
 📦 Repository: [github.com/naranjii/starfields](https://github.com/naranjii/starfields)
@@ -51,14 +51,14 @@ However, I discovered that rendering a high number of animated `div` elements ca
 git clone https://github.com/naranjii/starfields.git
 cd starfields
 npm install
-npm run dev
+npm run start
 ```
 
 ---
 ## 🗣 🇧🇷 PT-BR
 ## 🎯 Sobre
 
-**Star Editor** é um visualizador de campo estelar parametrizável, criado como um experimento pessoal para aprender **manipulação de CSS com JSX**. O foco é oferecer uma interface limpa e reativa que responde visualmente aos ajustes do usuário.
+**Star Edit UI** é um visualizador de campo estelar parametrizável, criado como um experimento pessoal para aprender **manipulação de CSS com JSX**. O foco é oferecer uma interface limpa e reativa que responde visualmente aos ajustes do usuário.
 
 🔗 Demo ao vivo: [https://starfields.vercel.app](https://starfields.vercel.app)  
 📦 Repositório: [github.com/naranjii/starfields](https://github.com/naranjii/starfields)
@@ -100,5 +100,5 @@ No entanto, descobri que renderizar um grande número de elementos `div` animado
 git clone https://github.com/naranjii/starfields.git
 cd starfields
 npm install
-npm run dev!
+npm run start
 
