@@ -53,38 +53,53 @@ git clone https://github.com/naranjii/starfields.git
 cd starfields
 npm install
 npm run dev
+```
 
-Star Editor é um visualizador de estrelas parametrizável criado como experimento pessoal para aprender manipulação de CSS via JSX. A proposta é uma UI limpa com efeitos visuais responsivos.
+---
 
-🔗 Acesse: https://starfields.vercel.app
-📦 Código-fonte: github.com/naranjii/starfields
+## 🎯 Sobre
 
-🎨 Recursos
-Controle de tamanho, quantidade, variação de cor e atraso de brilho
+**Star Editor** é um visualizador de campo estelar parametrizável, criado como um experimento pessoal para aprender **manipulação de CSS com JSX**. O foco é oferecer uma interface limpa e reativa que responde visualmente aos ajustes do usuário.
 
-Interface minimalista e reativa
+🔗 Demo ao vivo: [https://starfields.vercel.app](https://starfields.vercel.app)  
+📦 Repositório: [github.com/naranjii/starfields](https://github.com/naranjii/starfields)
 
-Renderização de estrelas com elementos div e CSS dinâmico
+---
 
-🎯 Objetivo
-Esse projeto começou como uma homepage de portfólio, onde estrelas brilhantes seriam links interativos para seções do site.
+## 🛠 Funcionalidades
 
-Mas, ao renderizar muitas divs com animações CSS, a performance caiu. Futuras versões podem usar bibliotecas com aceleração gráfica como:
+- Controle ajustável de **tamanho das estrelas**, **quantidade**, **variação de cor** e **atraso de luz** com sliders
+- Interface limpa e minimalista
+- Renderização reativa das estrelas usando elementos `div` dinâmicos
 
-Three.js
+![Captura de tela](./58d6e2d2-e824-4692-afbb-8b4559f29b1e.png)
 
-PixiJS
+---
 
-Canvas API
+## 📚 Objetivo
 
-⚙️ Tecnologias
-React + JSX
+Inicialmente, este projeto foi idealizado como minha **página inicial de portfólio**, onde as **estrelas mais brilhantes** funcionariam como **links interativos** para seções como projetos, sobre e contato.
 
-CSS
+No entanto, descobri que renderizar um grande número de elementos `div` animados pode causar gargalos de desempenho — especialmente em dispositivos mais simples. Para resultados melhores em versões futuras, recomenda-se o uso de renderização acelerada por GPU com bibliotecas especializadas:
 
-Vercel (Deploy)
+- 🧱 [Three.js](https://threejs.org/) – para renderização 3D / WebGL
+- 🌌 [PixiJS](https://pixijs.com/) – renderização 2D de alta performance
+- ⚡ [Canvas API](https://developer.mozilla.org/pt-BR/docs/Web/API/Canvas_API) – controle eficiente de pixels sem sobrecarga do DOM
 
-📦 Rodar Localmente
+---
+
+## 🧪 Tecnologias Utilizadas
+
+- **React**
+- **JSX**
+- **CSS**
+- **Vercel** para deploy
+
+---
+
+## 🚀 Rodando Localmente
+
+```bash
 git clone https://github.com/naranjii/starfields.git
 cd starfields
 npm install
