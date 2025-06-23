@@ -56,7 +56,7 @@ npm run dev
 ```
 
 ---
-
+## 🗣 🇧🇷 PT-BR
 ## 🎯 Sobre
 
 **Star Editor** é um visualizador de campo estelar parametrizável, criado como um experimento pessoal para aprender **manipulação de CSS com JSX**. O foco é oferecer uma interface limpa e reativa que responde visualmente aos ajustes do usuário.
