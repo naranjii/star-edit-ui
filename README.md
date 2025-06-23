@@ -1,3 +1,5 @@
+[image](https://github.com/user-attachments/assets/46c67e3c-0a27-4e81-8312-0667b3dd600a)
+
 # ✨ Star Editor – Interactive Starfield Visualizer
 
 [![Live on Vercel](https://img.shields.io/badge/Vercel-Live-blue?logo=vercel)](https://starfields.vercel.app)
@@ -103,4 +105,5 @@ No entanto, descobri que renderizar um grande número de elementos `div` animado
 git clone https://github.com/naranjii/starfields.git
 cd starfields
 npm install
-npm run dev
+npm run dev!
+
