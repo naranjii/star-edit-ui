@@ -28,7 +28,7 @@
 
 This was originally meant to be my **portfolio homepage**, where the **brightest stars** would act as **interactive links** to sections like projects, about, and contact.
 
-However, I discovered that rendering a high number of animated `div` elements can lead to performance bottlenecks — especially on low-end devices. For better results in future iterations, GPU-accelerated rendering through specialized libraries is highly recommended:
+However, I discovered that rendering a high number of animated `div` elements leads to performance bottlenecks — especially on low-end devices. For better results in future iterations, GPU-accelerated rendering through specialized libraries is thw way to go:
 
 - 🧱 [Three.js](https://threejs.org/) – for 3D / WebGL rendering
 - 🌌 [PixiJS](https://pixijs.com/) – fast 2D graphics rendering
@@ -77,7 +77,7 @@ npm run start
 
 Inicialmente, este projeto foi idealizado como minha **página inicial de portfólio**, onde as **estrelas mais brilhantes** funcionariam como **links interativos** para seções como projetos, sobre e contato.
 
-No entanto, descobri que renderizar um grande número de elementos `div` animados pode causar gargalos de desempenho — especialmente em dispositivos mais simples. Para resultados melhores em versões futuras, recomenda-se o uso de renderização acelerada por GPU com bibliotecas especializadas:
+No entanto, descobri que renderizar um grande número de elementos `div` animados pode causar gargalos de desempenho — especialmente em dispositivos mais simples. Para resultados melhores em versões futuras, o indicado é substituir pelo uso de renderização acelerada por GPU com bibliotecas especializadas:
 
 - 🧱 [Three.js](https://threejs.org/) – para renderização 3D / WebGL
 - 🌌 [PixiJS](https://pixijs.com/) – renderização 2D de alta performance
