@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { SlidersColor, SlidersQtd, SlidersSize, SlidersTmp, makeElementDraggable } from '../components/Sliders'
 
-const myLinks = ["http://www.linkone.com", "http://www.linktwo...com"];                                                                   // Links para Estrelas Interativas
+const myLinks = ["https://github.com/naranjii", "https://starred-task-manager.vercel.app", "https://lettrick.vercel.app"];                                                                   // Links para Estrelas Interativas
 function randomRange() {
   // Retorna um valor entre -1.0 e -0.5 OU entre 0.5 e 1.0 para posições/animações
   const sign = Math.random() < 0.5 ? -1 : 1;
