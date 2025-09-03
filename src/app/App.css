@@ -1,90 +1,105 @@
 body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background: black;
-    height: 100vh;
-    width: 100vw;
-  }
-  p { margin: 8px; user-select: none}
-
-#slidersinfo{
-    font-family:monospace;
-    opacity: 75%;
-    top: 100px;
-    left: 180px;
-    position: absolute;
-    width: 260px;
-    height: 316px;
-    background-color: rgba(190, 217, 255, 0.1);
-    border: solid rgba(199, 197, 74, 0.22) 1px;
-    color: rgba(255, 255, 255);
-    z-index: 1;
-    text-align: center;
-    font-size: 16px;
-    font-style: italic;
-    font-weight: 450;
-    letter-spacing: 0.2px;
-    word-spacing: 2px;
-    border-radius: 18px;
-  }
-
-  #SLIDERS_HEADER {
-    padding-top: 12px;
-    font-size: large; font-weight: 700; letter-spacing: 4px;
-    color: rgb(219, 217, 77);
-    border-radius: 8px;
-    padding-bottom: 12px;
-    margin-left: 4px;
-    margin-bottom: 0px;
-    border-bottom: solid  rgba(199, 197, 74, 0.33) 1px;
-    user-select: none;
-    font-style: normal;
-    font-weight: 100;
-    cursor: move;
-    font-size: 21px;
-}
-
-  .sliders{
-    scroll-padding-inline-start: 40px;
-    border-top: solid rgb(255, 255, 255, 0.165) 1px;
-    border-bottom: solid rgb(255, 255, 255, 0.165) 1px;
-  }
-
-  #starfield {
-    position: absolute;
-    width: 100vw;
-    height: 200vh;
-    overflow: hidden;
-    box-sizing: content-box;
-  }
-  #starfieldint {
-    position: absolute;
-    left: 20vw;
-    top: 20vh;
-    width: 60vw;
-    height: 60vh;
-    box-sizing: content-box;
-
-  }
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: black;
+  height: 100vh;
+  width: 100vw;
   
-  .Star {
-    position: absolute;
-    border-radius: 5px;
-    animation-name: jiggle;    
-    box-shadow: 0px 0px 3px 0.5px rgba(255, 220, 122, 0.075);
-  }  
-  .interactive-star {
-    position: absolute;
-    border-radius: 10px;
-    box-shadow: 0px 0px 22px 2px #ffeb7d46;
-    width: 20px;
-    height: 20px;
-    background: rgba(199, 197, 74, 0.89);
-    cursor: pointer;
-    animation: jiggle 2s infinite;
 }
-.earth{
+
+p {
+  margin: 8px;
+  user-select: none
+}
+
+#slidersinfo {
+  font-family: monospace;
+  opacity: 75%;
+  top: 100px;
+  left: 180px;
+  position: absolute;
+  width: 260px;
+  height: 316px;
+  background-color: rgba(190, 217, 255, 0.1);
+  border: solid rgba(199, 197, 74, 0.22) 1px;
+  color: rgba(255, 255, 255);
+  z-index: 1;
+  text-align: center;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 450;
+  letter-spacing: 0.2px;
+  word-spacing: 2px;
+  border-radius: 18px;
+}
+
+#SLIDERS_HEADER {
+  padding-top: 12px;
+  font-size: large;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: rgb(219, 217, 77);
+  border-radius: 8px;
+  padding-bottom: 12px;
+  margin-left: 4px;
+  margin-bottom: 0px;
+  border-bottom: solid rgba(199, 197, 74, 0.33) 1px;
+  user-select: none;
+  font-style: normal;
+  font-weight: 100;
+  cursor: move;
+  font-size: 21px;
+}
+
+.sliders {
+  scroll-padding-inline-start: 40px;
+  border-top: solid rgb(255, 255, 255, 0.165) 1px;
+  border-bottom: solid rgb(255, 255, 255, 0.165) 1px;
+}
+
+#starfield {
+  position: absolute;
+  width: 100vw;
+  height: 200vh;
+  overflow: hidden;
+  box-sizing: content-box;
+}
+
+#starfieldint {
+  position: absolute;
+  left: 20vw;
+  top: 20vh;
+  width: 60vw;
+  height: 60vh;
+  box-sizing: content-box;
+}
+
+.Star {
+  position: absolute;
+  border-radius: 5px;
+  animation-name: jiggle;
+  box-shadow: 0px 0px 3px 0.5px rgba(255, 220, 122, 0.075);
+}
+
+.interactive-star {
+  inset-inline: inline;
+  position: absolute;
+  border-radius: 10px;
+  box-shadow: 0px 0px 22px 2px #ffeb7d46;
+  width: 20px;
+  height: 20px;
+  background-image:url(https://github-production-user-asset-6210df.s3.amazonaws.com/163648999/483237298-bccf4142-e3dd-4293-ab8d-2f3bf38b9bc8.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250828%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250828T155609Z&X-Amz-Expires=300&X-Amz-Signature=6dd6bbc5ea067647238e82c767a9e91132b64f28ae9b4ea6c680400308d694ac&X-Amz-SignedHeaders=host);
+  cursor: pointer;
+  transition: transform 3s ease; /* fallback smoothness */
+}
+
+.interactive-star:hover {
+  transform: scale(33);
+  
+}
+
+.earth {
   position: absolute;
   border-radius: 6px;
   box-shadow: 0px 0px 8px 2px rgba(96, 221, 255, 0.349);
@@ -93,13 +108,28 @@ body {
   background: rgb(22, 162, 201);
   animation: jiggle 2s infinite;
 }
+
 @keyframes jiggle {
-    0%{transform: translate(0px, 0px);
-      opacity: var(--opac);}
-    15%{transform: translate(var(--x1), var(--x2))}
-    50% {opacity: var(--flash);
-      transform: translate(var(--x3), var(--x4))}
-    85%{transform: translate(var(--x5), var(--x6));}
-    100%{
-        transform: translate(0px, 0px);
-        opacity: var(--opac);}}
+  0% {
+    transform: translate(0px, 0px);
+    opacity: var(--opac);
+  }
+
+  15% {
+    transform: translate(var(--x1), var(--x2))
+  }
+
+  50% {
+    opacity: var(--flash);
+    transform: translate(var(--x3), var(--x4))
+  }
+
+  85% {
+    transform: translate(var(--x5), var(--x6));
+  }
+
+  100% {
+    transform: translate(0px, 0px);
+    opacity: var(--opac);
+  }
+}
