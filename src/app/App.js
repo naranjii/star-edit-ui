@@ -3,8 +3,8 @@ import './App.css';
 import { SlidersColor, SlidersQtd, SlidersSize, SlidersTmp } from '../components/Sliders'
 import { makeElementDraggable } from '../components/Draggable';
 
-const myLinks = [{link: "https://starred-task-manager.vercel.app", img : "../assets/screenshots/stm.jpg" },
-{ link: "https://lettrick.vercel.app", img: "../assets/screenshots/lettrick.jpg" }];                                                                   // Links para Estrelas Interativas
+const myLinks = [{ class: "stm", link: 'https://starred-task-manager.vercel.app' },
+{ class: "lettrick", link: "https://lettrick.vercel.app" }];                                                                   // Links para Estrelas Interativas
 function randomRange() {
   // Retorna um valor entre -1.0 e -0.5 OU entre 0.5 e 1.0 para posições/animações
   const sign = Math.random() < 0.5 ? -1 : 1;
@@ -37,7 +37,7 @@ const App = () => {                                                             
     const intStars = [];
     for (let i = 0; i < myLinks.length; i++) {
       const starlink = myLinks[i].link;
-      const starimg = myLinks[i].img;
+      const starclass = myLinks[i].class;
       const x1 = (Math.random() * 2) - 1;
       const x2 = (Math.random() * 2) - 1;
       const x5 = (Math.random() * 2) - 1;
@@ -48,7 +48,7 @@ const App = () => {                                                             
       const intStar_y = Math.random() * 100;
       const earthpos_x = ((Math.random() * 7.5 - 6) + 6).toFixed(1);
       const earthpos_y = ((Math.random() * 2 - 1) + 1).toFixed(1);
-      intStars.push({ starlink, starimg, intStar_x, intStar_y, earthpos_x, earthpos_y, x1, x2, x5, x6, x9, x10 });
+      intStars.push({ starlink, starclass, intStar_x, intStar_y, earthpos_x, earthpos_y, x1, x2, x5, x6, x9, x10 });
     }
     return intStars;
   };
@@ -181,7 +181,7 @@ const App = () => {                                                             
       earthElement.style.setProperty('--x6', intStar.x5 + "px");
       earthElement.style.setProperty('--x9', intStar.x2 + "px");
       earthElement.style.setProperty('--x10', intStar.x1 + "px");
-      intStarElement.className = 'interactive-star';
+      intStarElement.className = `interactive-star ${intStar.starclass}`;
       intStarElement.style.left = `${intStar.intStar_x}%`;
       intStarElement.style.top = `${intStar.intStar_y}%`;
       intStarElement.style.setProperty('--x1', intStar.x1 + "px");
@@ -190,6 +190,7 @@ const App = () => {                                                             
       intStarElement.style.setProperty('--x6', intStar.x6 + "px");
       intStarElement.style.setProperty('--x9', intStar.x9 + "px");
       intStarElement.style.setProperty('--x10', intStar.x10 + "px");
+
       intStarElement.addEventListener('click', () => {
         window.open(intStar.starlink, '_blank');
       });
