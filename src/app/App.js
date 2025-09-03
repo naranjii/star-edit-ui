@@ -3,7 +3,8 @@ import './App.css';
 import { SlidersColor, SlidersQtd, SlidersSize, SlidersTmp } from '../components/Sliders'
 import { makeElementDraggable } from '../components/Draggable';
 
-const myLinks = ["https://starred-task-manager.vercel.app", "https://lettrick.vercel.app"];                                                                   // Links para Estrelas Interativas
+const myLinks = [{link: "https://starred-task-manager.vercel.app", img : "../assets/screenshots/stm.jpg" },
+{ link: "https://lettrick.vercel.app", img: "../assets/screenshots/lettrick.jpg" }];                                                                   // Links para Estrelas Interativas
 function randomRange() {
   // Retorna um valor entre -1.0 e -0.5 OU entre 0.5 e 1.0 para posições/animações
   const sign = Math.random() < 0.5 ? -1 : 1;
@@ -35,7 +36,8 @@ const App = () => {                                                             
   const generateInteractiveStars = () => {                                                  // Objeto Estrela Interativa
     const intStars = [];
     for (let i = 0; i < myLinks.length; i++) {
-      const link = myLinks[i];
+      const starlink = myLinks[i].link;
+      const starimg = myLinks[i].img;
       const x1 = (Math.random() * 2) - 1;
       const x2 = (Math.random() * 2) - 1;
       const x5 = (Math.random() * 2) - 1;
@@ -46,7 +48,7 @@ const App = () => {                                                             
       const intStar_y = Math.random() * 100;
       const earthpos_x = ((Math.random() * 7.5 - 6) + 6).toFixed(1);
       const earthpos_y = ((Math.random() * 2 - 1) + 1).toFixed(1);
-      intStars.push({ link, intStar_x, intStar_y, earthpos_x, earthpos_y, x1, x2, x5, x6, x9, x10 });
+      intStars.push({ starlink, starimg, intStar_x, intStar_y, earthpos_x, earthpos_y, x1, x2, x5, x6, x9, x10 });
     }
     return intStars;
   };
@@ -189,7 +191,7 @@ const App = () => {                                                             
       intStarElement.style.setProperty('--x9', intStar.x9 + "px");
       intStarElement.style.setProperty('--x10', intStar.x10 + "px");
       intStarElement.addEventListener('click', () => {
-        window.open(intStar.link, '_blank');
+        window.open(intStar.starlink, '_blank');
       });
       starContainerint.current.appendChild(intStarElement);
       starContainerint.current.appendChild(earthElement);

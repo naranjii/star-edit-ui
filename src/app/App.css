@@ -89,9 +89,8 @@ p {
   box-shadow: 0px 0px 22px 2px #ffeb7d46;
   width: 20px;
   height: 20px;
-  background-image:url(https://github-production-user-asset-6210df.s3.amazonaws.com/163648999/483237298-bccf4142-e3dd-4293-ab8d-2f3bf38b9bc8.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250828%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250828T155609Z&X-Amz-Expires=300&X-Amz-Signature=6dd6bbc5ea067647238e82c767a9e91132b64f28ae9b4ea6c680400308d694ac&X-Amz-SignedHeaders=host);
   cursor: pointer;
-  transition: transform 3s ease; /* fallback smoothness */
+  transition: transform 4.2s ease; /* fallback smoothness */
 }
 
 .interactive-star:hover {
@@ -106,7 +105,7 @@ p {
   width: 2.5px;
   height: 2.5px;
   background: rgb(22, 162, 201);
-  animation: jiggle 2s infinite;
+  animation: jiggle 0.5s infinite;
 }
 
 @keyframes jiggle {
