@@ -11,7 +11,7 @@
 
 **Star Edit UI** is a parameterizable starfield visualizer created as a personal experiment to learn **JSX-based CSS manipulation**. It focuses on providing a clean, reactive UI that visually responds to user input.
 
-🔗 Live Demo: [https://starfields.vercel.app](https://starfields.vercel.app)  
+🔗 Live Demo: [https://starfields.vercel.app](https://mlaranjeira.vercel.app)  
 📦 Repository: [github.com/naranjii/starfields](https://github.com/naranjii/starfields)
 
 ---
