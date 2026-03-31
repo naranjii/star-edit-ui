@@ -1,238 +1,342 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import './App.css';
-import { SlidersColor, SlidersQtd, SlidersSize, SlidersTmp } from '../components/Sliders'
-import { makeElementDraggable } from '../components/Draggable';
+import { SlidersColor, SlidersQtd, SlidersSize, SlidersTmp } from '../components/Sliders';
+import { Window } from '../components/Window';
+import { projects } from '../data/projects';
+import { getLocalizedText, uiCopy } from '../data/copy';
 
-const myLinks = [{link: "https://starred-task-manager.vercel.app", img : "../assets/screenshots/stm.jpg" },
-{ link: "https://lettrick.vercel.app", img: "../assets/screenshots/lettrick.jpg" }];                                                                   // Links para Estrelas Interativas
+const DEFAULTS = {
+  quantity: 800,
+  duration: 1,
+  size: 2,
+  color: 5,
+};
+
 function randomRange() {
-  // Retorna um valor entre -1.0 e -0.5 OU entre 0.5 e 1.0 para posições/animações
   const sign = Math.random() < 0.5 ? -1 : 1;
   return sign * (Math.random() * 0.75 + 0.75);
 }
-const App = () => {                                                                                   // True App.js
+
+function createBackgroundStar({ size, duration, color }) {
+  const x = (Math.random() * 100).toFixed(2);
+  const y = (Math.random() * 100).toFixed(2);
+
+  const hueSeed = Math.round(Math.random() * 355);
+  let hue = hueSeed;
+  if (color !== 10 && ((hueSeed >= 75 && hueSeed <= 210) || (hueSeed >= 225 && hueSeed <= 240))) {
+    hue = Math.round(Math.random() * 75);
+  }
+
+  const saturation = Math.round(Math.random() * (color * 10));
+  const lightness = Math.random() * 2 - 1 >= 0.9 ? 100 : Math.round(Math.random() * 90);
+  const animationDuration = Math.random() * 2 - 1 >= 0.9 ? +(duration * (Math.random() * 1 + 3)).toFixed(1) : +(duration * (Math.random() + 1)).toFixed(1);
+  const starSize = Math.random() * 2 - 1 >= 0.5 ? +(size * (Math.random() + 2)).toFixed(1) : +(size * (Math.random() + 1)).toFixed(1);
+  const flash = Math.random() * 2 - 1 >= 0.5 ? +(Math.random() * 0.3 + 0.7).toFixed(1) : +((Math.random() * 0.4 - 0.15) + 0.15).toFixed(1);
+
+  const step = () => (+((Math.random() * 2) - 1).toFixed(1)).toString();
+
+  return {
+    x,
+    y,
+    hue,
+    saturation,
+    lightness,
+    animationDuration,
+    starSize,
+    flash,
+    x1: step(),
+    x2: step(),
+    x3: step(),
+    x4: step(),
+    x5: step(),
+    x6: step(),
+  };
+}
+
+function createProjectStar(project, index, onHover, lang) {
+  const wrapper = document.createElement('button');
+  wrapper.type = 'button';
+  wrapper.className = 'interactive-star';
+  const initialLeft = 16 + index * 27 + Math.random() * 8;
+  const initialTop = 18 + Math.random() * 58;
+  wrapper.style.left = `${initialLeft}%`;
+  wrapper.style.top = `${initialTop}%`;
+  wrapper.style.setProperty('--x1', `${(Math.random() * 2 - 1).toFixed(1)}px`);
+  wrapper.style.setProperty('--x2', `${(Math.random() * 2 - 1).toFixed(1)}px`);
+  wrapper.style.setProperty('--x5', `${(Math.random() * 2 - 1).toFixed(1)}px`);
+  wrapper.style.setProperty('--x6', `${(Math.random() * 2 - 1).toFixed(1)}px`);
+  wrapper.style.setProperty('--x9', `${(Math.random() * 2 - 1).toFixed(1)}px`);
+  wrapper.style.setProperty('--x10', `${(Math.random() * 2 - 1).toFixed(1)}px`);
+  const projectName = project.name[lang] || project.name.en;
+  wrapper.setAttribute('aria-label', `${getLocalizedText(lang, 'openProject')} ${projectName}`);
+  wrapper.dataset.href = project.link;
+  wrapper.dataset.dragging = 'false';
+  wrapper.dataset.moved = 'false';
+
+  const image = document.createElement('img');
+  image.className = 'interactive-star__image';
+  image.src = project.image;
+  image.alt = projectName;
+  image.loading = 'lazy';
+  image.draggable = false;
+  image.addEventListener('dragstart', (event) => event.preventDefault());
+  wrapper.appendChild(image);
+
+  const glow = document.createElement('div');
+  glow.className = 'earth';
+  glow.style.left = `${index * 6 + randomRange() * 4}%`;
+  glow.style.top = `${index * 6 + randomRange() * 4}%`;
+
+  wrapper.addEventListener('mouseenter', () => onHover(project));
+  wrapper.addEventListener('focus', () => onHover(project));
+
+  let pointerStart = null;
+  let startLeft = initialLeft;
+  let startTop = initialTop;
+  let launchTimer = null;
+
+  const stopDragging = () => {
+    wrapper.dataset.dragging = 'false';
+  };
+
+  const launchProject = () => {
+    if (launchTimer) return;
+    wrapper.classList.add('interactive-star--launching');
+    launchTimer = window.setTimeout(() => {
+      window.location.assign(project.link);
+    }, 260);
+  };
+
+  wrapper.addEventListener('pointerdown', (event) => {
+    if (event.button !== 0) return;
+    pointerStart = { x: event.clientX, y: event.clientY };
+    startLeft = Number.parseFloat(wrapper.style.left);
+    startTop = Number.parseFloat(wrapper.style.top);
+    wrapper.dataset.dragging = 'false';
+    wrapper.dataset.moved = 'false';
+    wrapper.setPointerCapture?.(event.pointerId);
+    onHover(project);
+  });
+
+  wrapper.addEventListener('pointermove', (event) => {
+    if (!pointerStart) return;
+    const deltaX = event.clientX - pointerStart.x;
+    const deltaY = event.clientY - pointerStart.y;
+    if (Math.abs(deltaX) + Math.abs(deltaY) > 5) {
+      wrapper.dataset.dragging = 'true';
+      wrapper.dataset.moved = 'true';
+    }
+
+    if (wrapper.dataset.dragging === 'true') {
+      const parent = wrapper.parentElement;
+      const bounds = parent?.getBoundingClientRect();
+      if (!bounds) return;
+      const nextLeft = Math.max(0, Math.min(100, startLeft + (deltaX / bounds.width) * 100));
+      const nextTop = Math.max(0, Math.min(100, startTop + (deltaY / bounds.height) * 100));
+      wrapper.style.left = `${nextLeft}%`;
+      wrapper.style.top = `${nextTop}%`;
+      wrapper.classList.add('interactive-star--dragging');
+    }
+  });
+
+  wrapper.addEventListener('pointerup', (event) => {
+    if (pointerStart && wrapper.dataset.dragging !== 'true') {
+      launchProject();
+    }
+    pointerStart = null;
+    wrapper.classList.remove('interactive-star--dragging');
+    stopDragging();
+    wrapper.releasePointerCapture?.(event.pointerId);
+  });
+
+  wrapper.addEventListener('pointercancel', () => {
+    pointerStart = null;
+    wrapper.classList.remove('interactive-star--dragging');
+    stopDragging();
+  });
+
+  return { star: wrapper, glow };
+}
+
+const App = () => {
   const starContainer = useRef(null);
-  const starContainerint = useRef(null);
+  const projectContainer = useRef(null);
 
   const [fps, setFps] = useState(0);
-  const [qtdEstrelas, setQtdEstrelas] = useState(800);
-  const [tmpEstrelas, setTmpEstrelas] = useState(1);
-  const [sizeEstrelas, setSizeEstrelas] = useState(2);
-  const [colorEstrelas, setColorEstrelas] = useState(5);
+  const [quantity, setQuantity] = useState(DEFAULTS.quantity);
+  const [duration, setDuration] = useState(DEFAULTS.duration);
+  const [size, setSize] = useState(DEFAULTS.size);
+  const [color, setColor] = useState(DEFAULTS.color);
+  const [aboutCollapsed, setAboutCollapsed] = useState(true);
+  const [controlsCollapsed, setControlsCollapsed] = useState(true);
+  const [activeProject, setActiveProject] = useState(projects[0]);
+  const [lang, setLang] = useState('en');
 
-  const updateQtdEstrelas = (value) => {                                                    // Slider QTD
-    setQtdEstrelas(value);
-  };
-  const updateTmpEstrelas = (tmpvalue) => {                                                 // Slider TMP
-    setTmpEstrelas(tmpvalue);
-  };
-  const updateSizeEstrelas = (sizevalue) => {                                               // Slider SIZE
-    setSizeEstrelas(sizevalue);
-  };
-  const updateColorEstrelas = (colorvalue) => {                                               // Slider SIZE
-    setColorEstrelas(colorvalue);
-  };
+  const copy = uiCopy[lang];
 
-  const generateInteractiveStars = () => {                                                  // Objeto Estrela Interativa
-    const intStars = [];
-    for (let i = 0; i < myLinks.length; i++) {
-      const starlink = myLinks[i].link;
-      const starimg = myLinks[i].img;
-      const x1 = (Math.random() * 2) - 1;
-      const x2 = (Math.random() * 2) - 1;
-      const x5 = (Math.random() * 2) - 1;
-      const x6 = (Math.random() * 2) - 1;
-      const x9 = (Math.random() * 2) - 1;
-      const x10 = (Math.random() * 2) - 1;
-      const intStar_x = Math.random() * 100;
-      const intStar_y = Math.random() * 100;
-      const earthpos_x = ((Math.random() * 7.5 - 6) + 6).toFixed(1);
-      const earthpos_y = ((Math.random() * 2 - 1) + 1).toFixed(1);
-      intStars.push({ starlink, starimg, intStar_x, intStar_y, earthpos_x, earthpos_y, x1, x2, x5, x6, x9, x10 });
+  const registerProjectHover = useCallback((project) => {
+    setActiveProject(project);
+  }, []);
+
+  useEffect(() => {
+    const container = starContainer.current;
+    if (!container) return undefined;
+
+    container.replaceChildren();
+
+    let active = true;
+
+    const addStar = (starData) => {
+      const star = document.createElement('div');
+      star.className = 'Star';
+      star.style.height = `${starData.starSize}px`;
+      star.style.width = `${starData.starSize}px`;
+      star.style.left = `${starData.x}vw`;
+      star.style.top = `${starData.y}vh`;
+      star.style.animationDuration = `${starData.animationDuration}s`;
+      star.style.backgroundColor = `hsl(${starData.hue}, ${starData.saturation}%, ${starData.lightness}%)`;
+      star.style.setProperty('--flash', starData.flash);
+      star.style.setProperty('--opac', 0);
+      star.style.setProperty('--x1', `${starData.x1}px`);
+      star.style.setProperty('--x2', `${starData.x2}px`);
+      star.style.setProperty('--x3', `${starData.x3}px`);
+      star.style.setProperty('--x4', `${starData.x4}px`);
+      star.style.setProperty('--x5', `${starData.x5}px`);
+      star.style.setProperty('--x6', `${starData.x6}px`);
+
+      const handleAnimationEnd = () => {
+        if (!active) return;
+        star.remove();
+        addStar(createBackgroundStar({ size, duration, color }));
+      };
+
+      star.addEventListener('animationend', handleAnimationEnd);
+      container.appendChild(star);
+    };
+
+    for (let index = 0; index < quantity; index += 1) {
+      addStar(createBackgroundStar({ size, duration, color }));
     }
-    return intStars;
-  };
 
-  useEffect(() => {                                                                         // useEffect
-    starContainer.current.innerHTML = '';
-    starContainerint.current.innerHTML = '';
-    makeElementDraggable('SLIDERS_HEADER', 'slidersinfo');
-    let lastFrame = performance.now();
-    let frames = 0;
+    return () => {
+      active = false;
+      container.replaceChildren();
+    };
+  }, [quantity, duration, size, color]);
+
+  useEffect(() => {
+    const container = projectContainer.current;
+    if (!container) return undefined;
+
+    container.replaceChildren();
+
+    const nodes = projects.flatMap((project, index) => {
+      const { star, glow } = createProjectStar(project, index, registerProjectHover, lang);
+      return [star, glow];
+    });
+
+    container.append(...nodes);
+
+    return () => {
+      container.replaceChildren();
+    };
+  }, [registerProjectHover, lang]);
+
+  useEffect(() => {
+    let frame = 0;
     let lastFpsUpdate = performance.now();
-    function loop(now) {
-      frames++;
+    let frames = 0;
+
+    const loop = (now) => {
+      frames += 1;
       if (now - lastFpsUpdate > 500) {
         setFps(Math.round((frames * 1000) / (now - lastFpsUpdate)));
         frames = 0;
         lastFpsUpdate = now;
       }
-      requestAnimationFrame(loop);
-    }
-    const id = requestAnimationFrame(loop);
-    function generateStar() {                                            // Objeto Estrela Ordinária
-      const x = [(Math.random() * 100).toFixed(2)];                                  // Posição
-      const y = [(Math.random() * 100).toFixed(2)];
-
-
-      let h;                                                              // Hue, Saturation, Lighting **WIP**
-      let hCond = Math.round(Math.random() * 355);
-      if (colorEstrelas !== 10) {
-        if ((hCond >= 75 && hCond <= 210) || (hCond >= 225 && hCond <= 240)) {
-          h = Math.round(Math.random() * 75)
-        }
-        else {
-          h = hCond
-        }
-      }
-      else { h = hCond };
-
-      let s = Math.round(Math.random() * (colorEstrelas * 10));
-
-      let l;
-      let lCond = +((Math.random() * 2) - 1).toFixed(1);
-      if (lCond >= 0.9) {
-        l = 100
-      } else {
-        l = Math.round((Math.random() * 90 - 50) + 50)
-      };
-
-      let animTimeProb = (Math.random() * 2) - 1;
-      let animTime;
-      if (animTimeProb >= 0.9) {
-        animTime = +(tmpEstrelas * Math.random() * (4 - 3) + 3).toFixed(1)
-      } else {
-        animTime = +(tmpEstrelas * Math.random() * (2 - 1) + 1).toFixed(1)
-      };
-      let rndSize;                                                      // Tamanho
-      let sizeProb = +((Math.random() * 2) - 1).toFixed(1);
-      if (sizeProb >= 0.5) {
-        rndSize = +(sizeEstrelas * Math.random() * (3 - 2) + 2).toFixed(1)
-      } else {
-        rndSize = +(sizeEstrelas * Math.random() * (2 - 1) + 1).toFixed(1)
-      };
-
-      let opac;                                                         // Opacidade Inicial
-      opac = 0;
-
-      let flash;                                                        // Opacidade Máxima
-      let flashProb = (Math.random() * 2) - 1;
-      if (flashProb >= 0.5) {
-        flash = +(Math.random() * (1 - 0.7) + 0.7).toFixed(1);
-      } else {
-        flash = +((Math.random() * 0.4 - 0.15) + 0.15).toFixed(1);
-      };
-
-      function animPos() {
-        let rand = +((Math.random() * 2) - 1).toFixed(1);
-        return (rand.toString())
-      }
-      const [x1, x2, x3, x4, x5, x6] =                 // Posições aleatórias para animação
-        [animPos(), animPos(), animPos(), animPos(), animPos(), animPos()];
-
-      const Star = {
-        x, y, h, s, l, rndSize, animTime,                    // Passa Props para lista
-        flash, opac, x1, x2, x3, x4, x5, x6
-      };
-      return Star
+      frame = requestAnimationFrame(loop);
     };
 
-    function addStar(Star) {                                                             // Renderiza Estrela no DOM
-      const starElement = document.createElement('div');
-      starElement.className = 'Star';
-      starElement.style.height = `${Star.rndSize}px`;
-      starElement.style.width = `${Star.rndSize}px`;
-      starElement.style.left = `${Star.x}vw`;
-      starElement.style.top = `${Star.y}vh`;
-      starElement.style.animationDuration = `${Star.animTime}s`;
-      starElement.style.backgroundColor = `hsl(${Star.h},${Star.s}%,${Star.l}%)`;
-      starElement.style.setProperty('--flash', Star.flash);
-      starElement.style.setProperty('--opac', Star.opac);
-      starElement.style.setProperty('--x1', Star.x1 + "px");
-      starElement.style.setProperty('--x2', Star.x2 + "px");
-      starElement.style.setProperty('--x3', Star.x3 + "px");
-      starElement.style.setProperty('--x4', Star.x4 + "px");
-      starElement.style.setProperty('--x5', Star.x5 + "px");
-      starElement.style.setProperty('--x6', Star.x6 + "px");
+    frame = requestAnimationFrame(loop);
 
-      starContainer.current.appendChild(starElement);
-      starElement.addEventListener("animationend", () => {
-        starElement.remove();
-        addStar(generateStar())
-      });
-    };
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
-    function addStars() {
-      for (let i = 0; i < qtdEstrelas; i++) {
-        addStar(generateStar())
-      }
-    }
-    addStars();
-
-    generateInteractiveStars().forEach(intStar => {                                         // Renderiza Estrela Interativa no DOM
-      const intStarElement = document.createElement('div');
-      const earthElement = document.createElement('div');
-      earthElement.className = 'earth';
-      earthElement.style.left = `${intStar.intStar_x + randomRange() * intStar.earthpos_x}%`;
-      earthElement.style.top = `${intStar.intStar_y + randomRange() * intStar.earthpos_y}%`;
-      earthElement.style.setProperty('--x1', intStar.x10 + "px");
-      earthElement.style.setProperty('--x2', intStar.x9 + "px");
-      earthElement.style.setProperty('--x5', intStar.x6 + "px");
-      earthElement.style.setProperty('--x6', intStar.x5 + "px");
-      earthElement.style.setProperty('--x9', intStar.x2 + "px");
-      earthElement.style.setProperty('--x10', intStar.x1 + "px");
-      intStarElement.className = 'interactive-star';
-      intStarElement.style.left = `${intStar.intStar_x}%`;
-      intStarElement.style.top = `${intStar.intStar_y}%`;
-      intStarElement.style.setProperty('--x1', intStar.x1 + "px");
-      intStarElement.style.setProperty('--x2', intStar.x2 + "px");
-      intStarElement.style.setProperty('--x5', intStar.x5 + "px");
-      intStarElement.style.setProperty('--x6', intStar.x6 + "px");
-      intStarElement.style.setProperty('--x9', intStar.x9 + "px");
-      intStarElement.style.setProperty('--x10', intStar.x10 + "px");
-      intStarElement.addEventListener('click', () => {
-        window.open(intStar.starlink, '_blank');
-      });
-      starContainerint.current.appendChild(intStarElement);
-      starContainerint.current.appendChild(earthElement);
-    });
-
-  }, [qtdEstrelas, tmpEstrelas, sizeEstrelas, colorEstrelas]);                                                                    // Fim useEffect
-
-
-  return (                                                                               // JSX
+  return (
     <div className="App">
+      <div className="ambient-glow" />
+      <button
+        type="button"
+        className="language-toggle"
+        onClick={() => setLang((current) => (current === 'en' ? 'ptBr' : 'en'))}
+        aria-label={copy.languageLabel}
+      >
+        <span className="language-toggle__flag">⚑</span>
+        <span>{lang === 'en' ? 'EN' : 'PT-BR'}</span>
+      </button>
+      <div id="starfield" ref={starContainer} />
+      <div id="starfieldint" ref={projectContainer} />
 
-      <div id="slidersinfo">
-        <div id="SLIDERS_HEADER">✦Star Edit UI✦
+      <Window
+        title={copy.controlsTitle}
+        subtitle={copy.controlsSubtitle}
+        collapsed={controlsCollapsed}
+        onToggleCollapse={() => setControlsCollapsed((value) => !value)}
+        initialPosition={{ x: 120, y: 96 }}
+        className="window--controls"
+      >
+        <div className="sliders-panel">
+          <SlidersSize value={size} label={copy.size} onChange={(value) => setSize(Number(value))} />
+          <SlidersColor value={color} label={copy.color} onChange={(value) => setColor(Number(value))} />
+          <SlidersTmp value={duration} label={copy.duration} onChange={(value) => setDuration(Number(value))} />
+          <SlidersQtd value={quantity} label={copy.quantity} onChange={(value) => setQuantity(Number(value))} />
+          <p className="fps-readout">{copy.fps}: {fps}</p>
+          <a className="repo-link" href="https://github.com/naranjii/star-edit-ui" target="_blank" rel="noopener noreferrer">
+            <span>{copy.repoLabel}</span>
+            <span>naranjii/star-edit-ui</span>
+          </a>
         </div>
-        <div>
-          <p>Star Size: {sizeEstrelas}</p>
-          <SlidersSize onSliderChange_size={updateSizeEstrelas} />
-          <p>Color Variation: {colorEstrelas}</p>
-          <SlidersColor onSliderChange_color={updateColorEstrelas} />
-          <p>Duration: {tmpEstrelas}</p>
-          <SlidersTmp onSliderChange_tmp={updateTmpEstrelas} />
-          <p>Quantity: {qtdEstrelas}</p>
-          <SlidersQtd onSliderChange_qtd={updateQtdEstrelas} />
-          <p style={{ marginTop: '8px', color: 'rgb(255, 254, 198, 0.3)' }}>FPS: {fps}</p>
-          <div style={{ marginTop: '16px' }}>
-            <a
-              href="https://github.com/naranjii/star-edit-ui"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', color: 'rgb(255, 254, 198, 0.3)' }}
-            >
-              <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor" style={{ marginRight: '6px' }}>
-                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
-              </svg>
-              naranjii/star-edit-ui
-            </a></div></div>
-      </div>
-      <div>
-        <div id="starfield" ref={starContainer}></div>
-        <div id="starfieldint" ref={starContainerint}></div>
-      </div>
+      </Window>
+
+      <Window
+        title={copy.aboutTitle}
+        subtitle={copy.aboutSubtitle}
+        collapsed={aboutCollapsed}
+        onToggleCollapse={() => setAboutCollapsed((value) => !value)}
+        initialPosition={{ x: 520, y: 108 }}
+        className="window--about"
+      >
+        <div className="about-panel">
+          <p>{copy.aboutIntro}</p>
+
+          {activeProject ? (
+            <article className="project-preview">
+              <img src={activeProject.image} alt={activeProject.name[lang]} className="project-preview__image" />
+              <div>
+                <h3>{activeProject.name[lang]}</h3>
+                <p>{activeProject.blurb[lang]}</p>
+              </div>
+            </article>
+          ) : null}
+
+          <div className="projects-list">
+            <span>{copy.projectsLabel}</span>
+            <ul>
+              {projects.map((project) => (
+                <li key={project.id}>
+                  <button
+                    type="button"
+                    className="projects-list__item"
+                    onClick={() => registerProjectHover(project)}
+                  >
+                    {project.name[lang]}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Window>
     </div>
   );
 };
