@@ -1,11 +1,11 @@
 export const uiCopy = {
   en: {
-    controlsTitle: '✦ Star Edit UI ✦',
-    controlsSubtitle: 'Tune the field, keep the sparkle.',
-    aboutTitle: 'About',
-    aboutSubtitle: 'Hovered project, recent signals, and context.',
+    controlsTitle: '✦Star Edit UI✦',
+    controlsSubtitle: 'Tune the field',
+    aboutTitle: 'ABOUT LARANJEIRA, M.',
+    aboutSubtitle: '',
     aboutIntro:
-      'I built this as a side project while learning JavaScript and experimenting with animated UI systems. It keeps the original starfield feel, but now the structure is easier to extend and maintain.',
+      'This website is my first attempt at learning JavaScript and experimenting with animated UI systems. It keeps the original starfield feel, heavily spawning thousands of CSS stiled HTML components, but the overall structure has been refactored to ease extension and maintainance.',
     recentLabel: 'Last hovered',
     projectsLabel: 'Projects',
     repoLabel: 'GitHub',
@@ -13,8 +13,8 @@ export const uiCopy = {
     openProject: 'Open project',
     expand: '+',
     collapse: '-',
-    size: 'Star Size',
-    color: 'Color Variation',
+    size: 'Size',
+    color: 'Color',
     duration: 'Duration',
     quantity: 'Quantity',
     fps: 'FPS',
@@ -22,21 +22,21 @@ export const uiCopy = {
     projectLink: 'Open project',
   },
   ptBr: {
-    controlsTitle: '✦ Star Edit UI ✦',
+    controlsTitle: '✦Star Edit UI✦',
     controlsSubtitle: 'Ajuste o campo e mantenha o brilho.',
     aboutTitle: 'Sobre',
     aboutSubtitle: 'Projeto em destaque, sinais recentes e contexto.',
     aboutIntro:
-      'Criei este projeto como um side project enquanto aprendia JavaScript e experimentava sistemas de UI animados. Ele mantém a sensação de campo estelar original, mas agora está mais fácil de expandir e manter.',
-    recentLabel: 'Últimos hover',
+      'Esse website é o resultado da minha primeira tentativa em aprenderJavaScript e experimentar com sistemas de interface animada. O código no repositório mantém o método antigo para gerar os componentes e produzir a animação, ignorando as soluções gráficas ideais como WebGL ou threejs. A estrutura como um todo porém foi refatorada para facilitar extensão e manutenção.',
+    recentLabel: 'Vistos Recentemente',
     projectsLabel: 'Projetos',
     repoLabel: 'GitHub',
     languageLabel: 'Idioma',
     openProject: 'Abrir projeto',
     expand: '+',
     collapse: '-',
-    size: 'Tamanho da estrela',
-    color: 'Variação de cor',
+    size: 'Tamanho',
+    color: 'Cor',
     duration: 'Duração',
     quantity: 'Quantidade',
     fps: 'FPS',
@@ -46,5 +46,5 @@ export const uiCopy = {
 };
 
 export function getLocalizedText(lang, key) {
-  return uiCopy[lang]?.[key] ?? uiCopy.en[key] ?? '';
+  return uiCopy[laang]?.[key] ?? uiCopy.en[key] ?? '';
 }
