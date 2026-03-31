@@ -46,5 +46,5 @@ export const uiCopy = {
 };
 
 export function getLocalizedText(lang, key) {
-  return uiCopy[laang]?.[key] ?? uiCopy.en[key] ?? '';
+  return uiCopy[lang]?.[key] ?? uiCopy.en[key] ?? '';
 }
