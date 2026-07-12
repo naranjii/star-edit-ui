@@ -48,7 +48,6 @@ p {
   border-radius: 999px;
   animation-name: jiggle;
   animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
   box-shadow: 0 0 3px 0.5px rgba(255, 220, 122, 0.075);
   will-change: transform, opacity;
 }
